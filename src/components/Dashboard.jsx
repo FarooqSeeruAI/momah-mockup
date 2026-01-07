@@ -33,25 +33,24 @@ const RowSection = ({ categoryKey }) => {
             flex: 1, // Allow row to flex
             minHeight: 0 // Allow shrinking
         }}>
-            {/* Title Box - Compact */}
+            {/* Title Box - Clean Text */}
             <div
-                className="glass"
                 style={{
-                    background: 'var(--color-bg-card)', // Use theme card bg
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     height: '100%',
-                    padding: '0.5rem 1rem',
-                    textAlign: 'center',
-                    borderRadius: 'var(--radius-lg)',
-                    border: '1px solid var(--color-border)',
-                    boxShadow: 'var(--shadow-md)',
-                    transition: 'transform 0.2s',
-                    // Removed cursor pointer
+                    paddingLeft: '0.5rem',
+                    borderRight: '1px solid var(--color-border)',
                 }}
             >
-                <h3 className="font-display" style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--color-text-primary)', letterSpacing: '0.02em' }}>
+                <h3 className="font-display" style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: 'var(--color-text-primary)',
+                    letterSpacing: '-0.02em',
+                    opacity: 0.9
+                }}>
                     {category.title}
                 </h3>
             </div>
@@ -158,7 +157,6 @@ const Dashboard = () => {
                         gridTemplateColumns: '180px 1.5fr 1fr 1fr 1fr',
                         gap: '1rem',
                         paddingBottom: '0.5rem',
-                        // Removed bottom border to make headers look like floating buttons/pills
                         alignItems: 'end',
                         flexShrink: 0
                     }}>
@@ -166,34 +164,34 @@ const Dashboard = () => {
                         <div></div>
                         <div style={{ gridColumn: 'span 2', textAlign: 'center' }}>
                             <div style={{
-                                background: 'linear-gradient(180deg, rgba(6, 78, 67, 1) 0%, rgba(2, 44, 38, 1) 100%)', // Harder background
-                                border: '1px solid var(--color-primary)',
-                                color: '#fff',
+                                background: 'rgba(255,255,255,0.03)',
+                                border: '1px solid rgba(255,255,255,0.05)',
+                                color: 'var(--color-text-secondary)',
                                 padding: '0.5rem 0',
                                 width: '100%',
-                                borderRadius: 'var(--radius-sm)',
-                                fontSize: '1rem',
-                                fontWeight: 700,
-                                boxShadow: 'var(--shadow-md)',
+                                borderRadius: 'var(--radius-full)',
+                                fontSize: '0.85rem',
+                                fontWeight: 600,
                                 textTransform: 'uppercase',
-                                letterSpacing: '0.05em'
+                                letterSpacing: '0.1em',
+                                backdropFilter: 'blur(4px)'
                             }}>
-                                Historic (Medium to Long Term)
+                                Historic (Mid-Long Term)
                             </div>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{
-                                background: 'linear-gradient(180deg, rgba(6, 78, 67, 1) 0%, rgba(2, 44, 38, 1) 100%)', // Match style
-                                border: '1px solid var(--color-primary)',
-                                color: '#fff',
+                                background: 'rgba(255,255,255,0.03)',
+                                border: '1px solid rgba(255,255,255,0.05)',
+                                color: 'var(--color-text-secondary)',
                                 padding: '0.5rem 0',
                                 width: '100%',
-                                borderRadius: 'var(--radius-sm)',
-                                fontSize: '0.9rem',
-                                fontWeight: 700,
-                                boxShadow: 'var(--shadow-md)',
+                                borderRadius: 'var(--radius-full)',
+                                fontSize: '0.85rem',
+                                fontWeight: 600,
                                 textTransform: 'uppercase',
-                                letterSpacing: '0.05em'
+                                letterSpacing: '0.1em',
+                                backdropFilter: 'blur(4px)'
                             }}>
                                 Short Term (12m)
                             </div>
@@ -211,19 +209,23 @@ const Dashboard = () => {
 
                     {/* Footer: Policy Monitoring */}
                     <div style={{
-                        background: 'linear-gradient(180deg, rgba(6, 78, 67, 1) 0%, rgba(2, 44, 38, 1) 100%)',
-                        border: '1px solid var(--color-primary)',
-                        borderRadius: 'var(--radius-sm)',
-                        padding: '0.5rem',
-                        textAlign: 'center',
-                        color: 'white',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.5rem',
                         marginTop: '0.5rem',
-                        boxShadow: 'var(--shadow-glow)'
+                        opacity: 0.6
                     }}>
-                        Policy Monitoring
+                        <div style={{ height: '1px', width: '40px', background: 'var(--color-border)' }}></div>
+                        <span style={{
+                            fontSize: '0.75rem',
+                            color: 'var(--color-text-muted)',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.15em'
+                        }}>
+                            Policy Monitoring
+                        </span>
+                        <div style={{ height: '1px', width: '40px', background: 'var(--color-border)' }}></div>
                     </div>
                 </div>
 

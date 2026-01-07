@@ -32,9 +32,12 @@ const MetricCard = ({
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <h3 className="font-display" style={{
                     color: 'var(--color-text-secondary)',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    lineHeight: 1.4
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    lineHeight: 1.4,
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                    opacity: 0.9
                 }}>
                     {label}
                 </h3>
