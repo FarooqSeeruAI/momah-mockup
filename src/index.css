@@ -159,3 +159,33 @@ button {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-border-hover);
 }
+
+/* Navigation Items */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+
+.nav-item.active {
+  background: var(--color-bg-surface);
+  color: var(--color-text-accent);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+  /* Subtle glow */
+  font-weight: 600;
+}

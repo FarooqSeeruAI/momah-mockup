@@ -1,38 +1,38 @@
 const kpiCategories = {
     demand: {
         title: "Demand",
-        description: "Strong economic and demographic momentum is driving housing demand. Economic growth, RHQs, tourism and FDI are pulling people and jobs into hubs like Riyadh.",
+        description: "Strong economic and demographic momentum is driving housing demand\nEconomic growth, RHQs, tourism and FDI are pulling people and jobs into hubs like Riyadh.",
         metrics: [
-            { id: "pop_growth", label: "Pop. Growth ('21-'24)", value: "~15%", trend: "up", intent: "neutral", subtext: "population growth from '21 - '24" },
-            { id: "employment_growth", label: "Employment Growth", value: "~18%", trend: "up", intent: "neutral", subtext: "employment growth from '21 - '24" },
-            { id: "expat_growth", label: "Riyadh Expat YoY", value: "~6%", trend: "up", intent: "neutral", subtext: "Growth in Riyadh expat population YoY" }
+            { id: "pop_growth", label: "Population growth from '21 - '24", value: "~15%", trend: "up", intent: "positive" },
+            { id: "employment_growth", label: "Employment growth from '21 - '24", value: "~18%", trend: "up", intent: "positive" },
+            { id: "expat_growth", label: "Growth in Riyadh expat population YoY", value: "~6%", trend: "up", intent: "positive" }
         ]
     },
     supply: {
         title: "Supply",
-        description: "Housing delivery has slowed materially since 2021. Housing completions in Riyadh peaked at ~83k units in 2021 and have been broadly flat since.",
+        description: "Housing delivery has slowed materially since 2021\nHousing completions in Riyadh peaked at ~83k units in 2021 and have been broadly flat since.",
         metrics: [
-            { id: "completion_drop", label: "Completion Drop", value: "~3%", trend: "down", intent: "negative", subtext: "Decrease in units completed In '19 vs. '24" },
-            { id: "permits_decline", label: "Permits Decline", value: "~2%", trend: "down", intent: "negative", subtext: "Decrease in residential starts permits since '22" },
-            { id: "starts_issue", label: "Permits / starts issued", value: "~5%", trend: "up", intent: "negative", subtext: "YoY (early warning on next year delivery)" }
+            { id: "completion_drop", label: "Decrease in units completed in '19 vs. '24", value: "~3%", trend: "down", intent: "negative" },
+            { id: "permits_decline", label: "Decrease in residential starts permits since '22", value: "~2%", trend: "down", intent: "negative" },
+            { id: "starts_issue", label: "Permits / starts issued YoY (early warning on next year delivery)", value: "~5%", trend: "up", intent: "negative" }
         ]
     },
     prices: {
         title: "Prices / Affordability",
-        description: "Affordability pressures are most visible in rental accommodation. Rent-to-income ratios exceed 50% for many households, especially for mid-market apartments.",
+        description: "Affordability pressures are most visible in rental accommodation\nRent-to-income ratios exceed 50% for many households, especially for mid-market apartments.",
         metrics: [
-            { id: "rent_surge", label: "Rent Surge", value: "~46%", trend: "up", intent: "negative", subtext: "Apartment rent increase in Riyadh from '22 - '25" },
-            { id: "rir_increase", label: "Rent-to-Income", value: "~50%+", trend: "up", intent: "negative", subtext: "Rent-to-income in mid-market segments from '22 - '25" },
-            { id: "rir_trend", label: "RIR Trend", value: "High", trend: "up", intent: "negative", subtext: "RIR trending upwards over the last 12 months" }
+            { id: "rent_surge", label: "Apartment rent increase in Riyadh from '22 - '25", value: "~46%", trend: "up", intent: "negative" },
+            { id: "rir_increase", label: "Rent-to-income in mid-market segments from '22 - '25", value: "~50%+", trend: "up", intent: "negative", subtext: "Rent-to-income in mid-market segments from '22 - '25" },
+            { id: "rir_trend", label: "RIR trending upwards over the last 12 months", value: "High", trend: "up", intent: "negative" }
         ]
     },
     other: {
         title: "Other",
-        description: "Real estate is a core enabler of Riyadh's growth agenda. Contributing ~12% of non-oil output; sustained housing cost pressures raise labour costs and strain talent attraction.",
+        description: "Real estate is a core enabler of Riyadh’s growth agenda\ncontributing ~12% of non-oil output (real estate + construction); sustained housing cost pressures raise labour costs and strain talent attraction/retention.",
         metrics: [
-            { id: "non_oil_gdp", label: "Non-Oil Share", value: "~12%", trend: "neutral", intent: "neutral", subtext: "share of non-oil output linked to real estate + construction" },
-            { id: "investment_increase", label: "Investment", value: "~20%", trend: "up", intent: "positive", subtext: "increase in construction/housing investment since '21" },
-            { id: "mortgage_lending", label: "Mortgage Lending", value: "~5%", trend: "up", intent: "positive", subtext: "Increase in residential mortgage lending YoY" }
+            { id: "non_oil_gdp", label: "Share of non-oil output linked to real estate + construction", value: "~12%", trend: "neutral", intent: "neutral" },
+            { id: "investment_increase", label: "Increase in construction/housing investment since '21", value: "~20%", trend: "up", intent: "positive" },
+            { id: "mortgage_lending", label: "Increase in residential mortgage lending YoY", value: "~5%", trend: "up", intent: "positive" }
         ]
     }
 };

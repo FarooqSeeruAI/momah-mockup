@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, Link } from 'react-router-dom';
 import { LayoutDashboard, Sliders, Activity, TrendingUp, Map as MapIcon, Globe, Menu } from 'lucide-react';
 import SegmentedControl from '../common/SegmentedControl';
+import ChatSidebar from './ChatSidebar';
 
 const MainLayout = () => {
     const [timeContext, setTimeContext] = useState('forecast');
@@ -9,7 +10,7 @@ const MainLayout = () => {
     const location = useLocation();
 
     const navItems = [
-        { path: '/', label: 'Monitoring', icon: LayoutDashboard },
+        { path: '/', label: 'Home', icon: LayoutDashboard },
         { path: '/policies', label: 'Policy Levers', icon: Sliders },
         { path: '/impacts', label: 'Impacts', icon: Activity },
         { path: '/affordability', label: 'Affordability', icon: TrendingUp },
@@ -29,35 +30,21 @@ const MainLayout = () => {
                 position: 'sticky',
                 top: 0,
                 zIndex: 50,
-                padding: '1rem 2rem',
+                padding: '0.8rem 2rem', // Slightly compacted padding
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 borderBottom: '1px solid var(--color-border)'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
-                    {/* Brand */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{
-                            width: '40px', height: '40px',
-                            background: 'var(--gradient-primary)',
-                            borderRadius: '10px',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            boxShadow: 'var(--glow-primary)'
-                        }}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                                <path d="M3 21h18M5 21V7l8-4 8 4v14" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.02em' }}>
-                                MoMAH
-                            </h1>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                Decision Support
-                            </span>
-                        </div>
-                    </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+                    {/* Brand / Home Button */}
+                    <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+                        <img
+                            src="/logo-en.png"
+                            alt="MoMAH Logo"
+                            style={{ height: '50px', width: 'auto' }}
+                        />
+                    </Link>
 
                     {/* Main Nav */}
                     <nav style={{ display: 'flex', gap: '0.5rem' }}>
@@ -68,20 +55,7 @@ const MainLayout = () => {
                                 <NavLink
                                     key={item.path}
                                     to={item.path}
-                                    style={{
-                                        textDecoration: 'none',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem',
-                                        padding: '0.6rem 1rem',
-                                        borderRadius: 'var(--radius-md)',
-                                        color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
-                                        background: isActive ? 'var(--color-border)' : 'transparent',
-                                        border: isActive ? '1px solid var(--color-border-hover)' : '1px solid transparent',
-                                        transition: 'all 0.2s',
-                                        fontSize: '0.9rem',
-                                        fontWeight: isActive ? 500 : 400
-                                    }}
+                                    className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
                                 >
                                     <Icon size={18} />
                                     {item.label}
@@ -141,6 +115,9 @@ const MainLayout = () => {
             }}>
                 <Outlet context={{ timeContext, lang }} />
             </main>
+
+            {/* Chat Sidebar */}
+            <ChatSidebar />
         </div>
     );
 };

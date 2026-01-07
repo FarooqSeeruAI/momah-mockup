@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 import ForecastPanel from './ForecastPanel';
 import Toggle from './common/Toggle';
 import { kpiCategories } from '../data/mockData';
-import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
+import { ArrowUp, ArrowDown, Minus, TrendingUp, Home, Wallet, Layers } from 'lucide-react';
 
 const TrendIcon = ({ trend, intent, size = 24 }) => {
     let color = 'var(--color-text-muted)';
@@ -21,58 +21,86 @@ const RowSection = ({ categoryKey }) => {
     const navigate = useNavigate();
     const category = kpiCategories[categoryKey];
 
+    // Split description for "Headline" vs "Body" styling
+    const [headline, ...bodyParts] = category.description.split('\n');
+    const bodyText = bodyParts.join(' ');
+
+    const getIcon = (key) => {
+        if (key === 'demand') return <TrendingUp size={18} color="var(--color-text-primary)" />;
+        if (key === 'supply') return <Home size={18} color="var(--color-text-primary)" />;
+        if (key === 'prices') return <Wallet size={18} color="var(--color-text-primary)" />;
+        return <Layers size={18} color="var(--color-text-primary)" />;
+    };
+
     return (
         <div style={{
             display: 'grid',
-            gridTemplateColumns: '180px 1.5fr 1fr 1fr 1fr',
-            gap: '1rem', // Reduced gap
+            gridTemplateColumns: '160px 1.4fr 1fr 1fr 1fr',
+            gap: '0.75rem', // Ultra Compact Gap
             alignItems: 'center',
             borderBottom: '1px solid var(--color-border)',
-            padding: '0.75rem 0', // Reduced padding significantly
+            padding: '0.35rem 0', // Ultra Compact Padding
             position: 'relative',
-            flex: 1, // Allow row to flex
-            minHeight: 0 // Allow shrinking
+            flex: 1,
+            minHeight: 0
         }}>
-            {/* Title Box - Clean Text */}
+            {/* Title Box - Clean Text with Icon */}
             <div
                 style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'flex-start',
+                    gap: '0.5rem',
                     height: '100%',
-                    paddingLeft: '0.5rem',
+                    paddingLeft: '0',
                     borderRight: '1px solid var(--color-border)',
                 }}
             >
+                <div style={{
+                    padding: '8px',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 78, 67, 0.4))',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    {getIcon(categoryKey)}
+                </div>
                 <h3 className="font-display" style={{
-                    fontSize: '1.25rem',
+                    fontSize: '1rem',
                     fontWeight: 700,
                     color: 'var(--color-text-primary)',
-                    letterSpacing: '-0.02em',
-                    opacity: 0.9
+                    letterSpacing: '-0.01em',
+                    opacity: 1
                 }}>
                     {category.title}
                 </h3>
             </div>
 
-            {/* Description Text - Compact Typography */}
-            <div style={{ display: 'flex', alignItems: 'center', padding: '0 0.75rem', borderLeft: '1px solid var(--color-border)', height: '80%' }}>
-                <p style={{
-                    fontSize: '0.85rem', // Slightly smaller
-                    color: 'var(--color-text-secondary)',
-                    lineHeight: 1.4,
-                    fontWeight: 400,
-                    letterSpacing: '0.01em',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
+            {/* Description Text - Rich Typography */}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 0.5rem', borderLeft: '1px solid transparent', height: '100%' }}>
+                <span style={{
+                    display: 'block',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    color: '#fff',
+                    marginBottom: '2px',
+                    lineHeight: 1.2
                 }}>
-                    {category.description}
-                </p>
+                    {headline}
+                </span>
+                <span style={{
+                    display: 'block',
+                    fontSize: '0.65rem',
+                    color: 'rgba(255,255,255,0.7)',
+                    lineHeight: 1.3,
+                    fontWeight: 400
+                }}>
+                    {bodyText}
+                </span>
             </div>
 
-            {/* Metrics x3 - Compact */}
+            {/* Metrics x3 - Compact & Solid */}
             {category.metrics.map((metric, i) => {
                 const isClickable = metric.id === 'rir_increase';
                 return (
@@ -84,49 +112,60 @@ const RowSection = ({ categoryKey }) => {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
-                            borderRadius: 'var(--radius-md)',
-                            padding: '0.5rem', // Tighter padding
+                            background: 'rgba(255,255,255,0.04)',
+                            backdropFilter: 'blur(10px)',
+                            borderRadius: 'var(--radius-lg)',
+                            padding: '0.4rem',
                             height: '100%',
-                            border: '1px solid rgba(255,255,255,0.03)',
+                            minHeight: '80px', // Reduced min-height
+                            border: '1px solid rgba(255,255,255,0.05)',
                             cursor: isClickable ? 'pointer' : 'default',
-                            transition: 'all 0.2s'
+                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                            position: 'relative',
+                            overflow: 'hidden'
                         }}
                         onMouseEnter={(e) => {
-                            if (isClickable) {
-                                e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                                e.currentTarget.style.borderColor = 'var(--color-primary)';
-                            }
+                            e.currentTarget.style.background = 'linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))';
+                            e.currentTarget.style.borderColor = 'var(--color-primary)';
+                            e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                            e.currentTarget.style.boxShadow = '0 10px 20px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(16, 185, 129, 0.2)';
                         }}
                         onMouseLeave={(e) => {
-                            if (isClickable) {
-                                e.currentTarget.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)';
-                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.03)';
-                            }
+                            e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)';
+                            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                            e.currentTarget.style.boxShadow = 'none';
                         }}
                     >
-                        <div style={{ marginBottom: '0.25rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
-                            <TrendIcon trend={metric.trend} intent={metric.intent} size={24} /> {/* Smaller icon */}
+                        <div style={{ marginBottom: '0.2rem', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
+                            <TrendIcon trend={metric.trend} intent={metric.intent} size={24} />
                         </div>
                         <div className="font-display" style={{
-                            fontSize: '1.75rem',
+                            fontSize: '1.35rem', // Slightly smaller to give text room
                             fontWeight: 700,
                             color: 'var(--color-text-primary)',
                             lineHeight: 1,
-                            // Removed hardcoded gradient text to support all themes
+                            letterSpacing: '-0.02em',
+                            textShadow: '0 2px 10px rgba(0,0,0,0.2)'
                         }}>
                             {metric.value}
                         </div>
                         <div style={{
-                            fontSize: '0.65rem', // Smaller subtext
-                            color: 'var(--color-text-muted)',
+                            fontSize: '0.72rem', // Larger, readable size
+                            color: 'rgba(255,255,255,0.9)', // High Contrast
                             textAlign: 'center',
                             marginTop: '0.25rem',
-                            lineHeight: 1.2,
-                            maxWidth: '95%'
+                            fontWeight: 500,
+                            lineHeight: 1.3, // Better spacing
+                            maxWidth: '100%'
                         }}>
                             {metric.subtext || metric.label}
                         </div>
+                        <div style={{
+                            position: 'absolute',
+                            top: 0, left: 0, right: 0, height: '1px',
+                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)'
+                        }} />
                     </div>
                 );
             })}
@@ -139,14 +178,11 @@ const Dashboard = () => {
     const { timeContext } = useOutletContext();
     const [baselineApplied, setBaselineApplied] = useState(false);
 
-    // Adjusted calculation: 100vh - Header(~80px) - MainPadding(~64px to 100px)
-    // Let's rely on flexbox within the main outlet if possible, or set a strict limit.
-    // Setting calc(100vh - 170px) to be safe.
-
+    // Adjusted: 100vh - 120px (Header + Padding) to maximise space
     return (
-        <div className="animate-enter" style={{ height: 'calc(100vh - 170px)', display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '0' }}>
+        <div className="animate-enter" style={{ height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '0 0.5rem 1rem 0.5rem' }}>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '68% 30%', gap: '1.5rem', height: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '66% 1fr', gap: '1rem', height: '100%' }}>
 
                 {/* Left Panel: Matrix */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', height: '100%' }}>
@@ -154,9 +190,9 @@ const Dashboard = () => {
                     {/* Headers Row */}
                     <div style={{
                         display: 'grid',
-                        gridTemplateColumns: '180px 1.5fr 1fr 1fr 1fr',
-                        gap: '1rem',
-                        paddingBottom: '0.5rem',
+                        gridTemplateColumns: '160px 1.4fr 1fr 1fr 1fr',
+                        gap: '0.75rem',
+                        paddingBottom: '0.2rem',
                         alignItems: 'end',
                         flexShrink: 0
                     }}>
@@ -164,34 +200,36 @@ const Dashboard = () => {
                         <div></div>
                         <div style={{ gridColumn: 'span 2', textAlign: 'center' }}>
                             <div style={{
-                                background: 'rgba(255,255,255,0.03)',
-                                border: '1px solid rgba(255,255,255,0.05)',
-                                color: 'var(--color-text-secondary)',
-                                padding: '0.5rem 0',
+                                background: 'linear-gradient(90deg, rgba(6, 78, 67, 0.6) 0%, rgba(16, 185, 129, 0.2) 50%, rgba(6, 78, 67, 0.6) 100%)',
+                                border: '1px solid rgba(52, 211, 153, 0.2)',
+                                color: 'var(--color-text-accent)',
+                                padding: '0.35rem 0',
                                 width: '100%',
                                 borderRadius: 'var(--radius-full)',
-                                fontSize: '0.85rem',
-                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                fontWeight: 700,
                                 textTransform: 'uppercase',
                                 letterSpacing: '0.1em',
-                                backdropFilter: 'blur(4px)'
+                                backdropFilter: 'blur(4px)',
+                                boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                             }}>
                                 Historic (Mid-Long Term)
                             </div>
                         </div>
                         <div style={{ textAlign: 'center' }}>
                             <div style={{
-                                background: 'rgba(255,255,255,0.03)',
-                                border: '1px solid rgba(255,255,255,0.05)',
-                                color: 'var(--color-text-secondary)',
-                                padding: '0.5rem 0',
+                                background: 'linear-gradient(90deg, rgba(6, 78, 67, 0.6) 0%, rgba(16, 185, 129, 0.2) 50%, rgba(6, 78, 67, 0.6) 100%)',
+                                border: '1px solid rgba(52, 211, 153, 0.2)',
+                                color: 'var(--color-text-accent)',
+                                padding: '0.35rem 0',
                                 width: '100%',
                                 borderRadius: 'var(--radius-full)',
-                                fontSize: '0.85rem',
-                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                fontWeight: 700,
                                 textTransform: 'uppercase',
                                 letterSpacing: '0.1em',
-                                backdropFilter: 'blur(4px)'
+                                backdropFilter: 'blur(4px)',
+                                boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                             }}>
                                 Short Term (12m)
                             </div>
@@ -200,68 +238,88 @@ const Dashboard = () => {
 
                     {/* Rows */}
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
-                        {/* Using flex:1 and minHeight:0 is crucial for nested flex scrolling/sizing */}
                         <RowSection categoryKey="demand" />
                         <RowSection categoryKey="supply" />
                         <RowSection categoryKey="prices" />
                         <RowSection categoryKey="other" />
                     </div>
 
-                    {/* Footer: Policy Monitoring */}
+                    {/* Footer: Policy Monitoring HERO BADGE - ULTRA COMPACT & WIDE */}
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: '0.5rem',
-                        marginTop: '0.5rem',
-                        opacity: 0.6
+                        marginTop: '0.25rem',
+                        flexShrink: 0,
+                        paddingTop: '0.25rem',
+                        width: '100%' // Ensure container is full width
                     }}>
-                        <div style={{ height: '1px', width: '40px', background: 'var(--color-border)' }}></div>
-                        <span style={{
-                            fontSize: '0.75rem',
-                            color: 'var(--color-text-muted)',
+                        <div style={{
+                            background: 'linear-gradient(90deg, rgba(6, 78, 67, 0.8) 0%, rgba(16, 185, 129, 0.3) 50%, rgba(6, 78, 67, 0.8) 100%)', // Stronger gradient
+                            border: '1px solid rgba(52, 211, 153, 0.4)',
+                            borderRadius: 'var(--radius-full)',
+                            padding: '0.6rem 0', // Taller, but padding handled by width
+                            width: '100%', // Full Width
+                            textAlign: 'center',
+                            color: 'var(--color-text-accent)',
+                            fontSize: '0.85rem', // Slightly larger
+                            fontWeight: 800,
                             textTransform: 'uppercase',
-                            letterSpacing: '0.15em'
-                        }}>
-                            Policy Monitoring
-                        </span>
-                        <div style={{ height: '1px', width: '40px', background: 'var(--color-border)' }}></div>
+                            letterSpacing: '0.25em',
+                            boxShadow: '0 0 25px rgba(16, 185, 129, 0.2), inset 0 0 15px rgba(16, 185, 129, 0.05)',
+                            backdropFilter: 'blur(8px)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease'
+                        }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.boxShadow = '0 0 35px rgba(16, 185, 129, 0.3), inset 0 0 20px rgba(16, 185, 129, 0.1)';
+                                e.currentTarget.style.transform = 'translateY(-1px)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.2), inset 0 0 15px rgba(16, 185, 129, 0.05)';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                            }}
+                        >
+                            <Layers size={18} /> POLICY MONITORING
+                        </div>
                     </div>
                 </div>
 
                 {/* Right Panel: Forecast */}
-                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '1rem', paddingTop: '0' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: '0.5rem', paddingTop: '0' }}>
                     <div className="glass-card" style={{
                         flex: 1,
                         borderRadius: 'var(--radius-xl)',
-                        padding: '1rem',
+                        padding: '1rem', // Compact Padding
                         display: 'flex',
                         flexDirection: 'column',
                         boxShadow: 'var(--shadow-lg)',
-                        border: '1px solid var(--color-border)',
-                        overflow: 'hidden' // Ensure chart doesn't push out
+                        border: '1px solid var(--color-border-highlight)',
+                        overflow: 'hidden',
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2))'
                     }}>
                         <div style={{
                             background: 'var(--gradient-primary)',
-                            padding: '0.5rem',
+                            padding: '0.4rem',
                             borderRadius: 'var(--radius-md)',
                             color: 'var(--color-bg-deep)',
                             fontWeight: 700,
                             textAlign: 'center',
                             boxShadow: 'var(--shadow-md)',
-                            fontSize: '1rem',
+                            fontSize: '0.9rem',
                             letterSpacing: '0.05em',
                             flexShrink: 0
                         }}>
                             FORECAST
                         </div>
 
-                        {/* Controls - Redesigned as Tab-like Toggles with Border Highlight */}
+                        {/* Controls */}
                         <div style={{
                             display: 'grid',
                             gridTemplateColumns: '1fr 1fr',
                             gap: '0.75rem',
-                            marginTop: '1.5rem',
+                            marginTop: '0.75rem',
                             flexShrink: 0,
                             background: 'rgba(0,0,0,0.2)',
                             padding: '0.25rem',
@@ -271,13 +329,13 @@ const Dashboard = () => {
                             {/* Baseline Tab */}
                             <div
                                 style={{
-                                    padding: '0.6rem',
+                                    padding: '0.5rem',
                                     fontSize: '0.75rem',
                                     color: !baselineApplied ? 'var(--color-primary)' : 'var(--color-text-secondary)',
                                     textAlign: 'center',
                                     borderRadius: 'var(--radius-md)',
                                     opacity: !baselineApplied ? 1 : 0.6,
-                                    fontWeight: !baselineApplied ? 600 : 400,
+                                    fontWeight: !baselineApplied ? 700 : 500,
                                     cursor: 'pointer',
                                     border: !baselineApplied ? '1px solid var(--color-primary)' : '1px solid transparent',
                                     background: !baselineApplied ? 'var(--color-border)' : 'transparent',
@@ -286,21 +344,21 @@ const Dashboard = () => {
                                 }}
                                 onClick={() => setBaselineApplied(false)}
                             >
-                                Baseline <span style={{ fontWeight: 400, fontSize: '0.65rem', opacity: 0.8, display: 'block', marginTop: '2px' }}>(Committed Policies)</span>
+                                Baseline <span style={{ fontWeight: 400, fontSize: '0.65rem', opacity: 0.8, display: 'block', marginTop: '1px' }}>(Committed)</span>
                             </div>
 
                             {/* Policy Tab */}
                             <div
                                 style={{
-                                    padding: '0.6rem',
+                                    padding: '0.5rem',
                                     fontSize: '0.75rem',
                                     color: baselineApplied ? 'var(--color-text-gold)' : 'var(--color-text-secondary)',
                                     textAlign: 'center',
                                     borderRadius: 'var(--radius-md)',
-                                    fontWeight: baselineApplied ? 600 : 400,
+                                    fontWeight: baselineApplied ? 700 : 500,
                                     cursor: 'pointer',
                                     border: baselineApplied ? '1px solid var(--color-text-gold)' : '1px solid transparent',
-                                    background: baselineApplied ? 'rgba(251, 191, 36, 0.1)' : 'transparent', // Can replace with var if needed, but gold is specific
+                                    background: baselineApplied ? 'rgba(251, 191, 36, 0.1)' : 'transparent',
                                     boxShadow: baselineApplied ? '0 0 10px rgba(251, 191, 36, 0.2)' : 'none',
                                     transition: 'all 0.3s ease',
                                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
@@ -308,19 +366,23 @@ const Dashboard = () => {
                                 onClick={() => setBaselineApplied(true)}
                             >
                                 <div>
-                                    Policy Impacts Applied
+                                    Policy Impacts
                                 </div>
                             </div>
                         </div>
 
                         {/* Forecast Content */}
-                        <div style={{ flex: 1, position: 'relative', marginTop: '1rem', minHeight: '0' }}>
+                        <div style={{ flex: 1, position: 'relative', marginTop: '0.5rem', minHeight: '0' }}>
                             <ForecastPanel baselineApplied={baselineApplied} />
                         </div>
 
-                        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexShrink: 0 }}>
-                            <button className="glass" style={{ flex: 1, fontSize: '0.7rem', padding: '0.5rem', borderRadius: 'var(--radius-md)', color: 'var(--color-text-muted)', border: '1px solid var(--color-border)' }}>Baseline Assumptions</button>
-                            <button className="glass" style={{ flex: 1, fontSize: '0.7rem', padding: '0.5rem', borderRadius: 'var(--radius-md)', color: 'var(--color-text-muted)', border: '1px solid var(--color-border)' }}>Policy Breakdown</button>
+                        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem', flexShrink: 0 }}>
+                            <button className="glass" style={{ flex: 1, fontSize: '0.7rem', padding: '0.5rem', borderRadius: 'var(--radius-md)', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: 500 }}>
+                                Baseline Assumptions
+                            </button>
+                            <button onClick={() => navigate('/policies')} className="glass" style={{ flex: 1, fontSize: '0.7rem', padding: '0.5rem', borderRadius: 'var(--radius-md)', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border)', cursor: 'pointer', transition: 'all 0.2s', fontWeight: 500 }}>
+                                Policy Breakdown
+                            </button>
                         </div>
                     </div>
                 </div>
