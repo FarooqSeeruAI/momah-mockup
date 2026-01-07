@@ -23,7 +23,7 @@ const ChatSidebar = () => {
                 // ⬇️ When open: dock to right full height; when closed: float at bottom-right with SPACING
                 right: isOpen ? 0 : `${SPACING}px`,
                 bottom: isOpen ? 0 : `${SPACING}px`,
-                top: isOpen ? 0 : 'auto',
+                top: isOpen ? 0 : undefined,
                 width: isOpen ? `${PANEL_WIDTH}px` : 'auto',
                 height: isOpen ? '100vh' : 'auto',
                 background: isOpen ? '#13403a' : 'transparent',
@@ -35,7 +35,7 @@ const ChatSidebar = () => {
                 boxShadow: isOpen ? '-5px 0 30px rgba(0,0,0,0.3)' : 'none',
                 overflow: 'hidden',
                 borderRadius: isOpen ? 0 : '16px',
-                pointerEvents: 'auto',
+                pointerEvents: isOpen ? 'auto' : 'none',
             }}
         >
             {/* Collapsed State: Floating Trigger */}
@@ -51,6 +51,7 @@ const ChatSidebar = () => {
                         padding: 0,
                         margin: 0,
                         display: 'block',
+                        pointerEvents: 'auto',
                     }}
                 >
                     <div
